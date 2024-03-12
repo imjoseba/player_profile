@@ -2,5 +2,7 @@ altair==5.2.0
 matplotlib==3.7.5
 mplsoccer==1.2.2
 pandas==1.5.1
-scipy==1.11.4
+scipy==1.6.3  
 streamlit==1.32.0
+
+
