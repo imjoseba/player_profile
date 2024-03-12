@@ -5,19 +5,35 @@ import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 import math
 from scipy import stats
+import requests
 
-# Load data
-medios = pd.read_csv(r'C:\analyst\GitHub\player_profile\medios.csv')
+# Load data from GitHub repository
+medios_url = "https://raw.githubusercontent.com/imjoseba/player_profile/main/medios.csv"
+medios = pd.read_csv(medios_url)
 
-# Define font paths
-font_normal_path = r'C:\analyst\GitHub\player_profile\fonts\Cousine-Regular.ttf'
-font_italic_path = r'C:\analyst\GitHub\player_profile\fonts\Cousine-Italic.ttf'
-font_bold_path = r'C:\analyst\GitHub\player_profile\fonts\Cousine-Bold.ttf'
+# Define font paths from GitHub repository
+fonts_base_url = "https://raw.githubusercontent.com/imjoseba/player_profile/main/fonts/"
+font_normal_path = fonts_base_url + "Cousine-Regular.ttf"
+font_italic_path = fonts_base_url + "Cousine-Italic.ttf"
+font_bold_path = fonts_base_url + "Cousine-Bold.ttf"
+
+# Download fonts
+font_normal = requests.get(font_normal_path).content
+font_italic = requests.get(font_italic_path).content
+font_bold = requests.get(font_bold_path).content
+
+# Write fonts to temporary files
+with open("Cousine-Regular.ttf", "wb") as f:
+    f.write(font_normal)
+with open("Cousine-Italic.ttf", "wb") as f:
+    f.write(font_italic)
+with open("Cousine-Bold.ttf", "wb") as f:
+    f.write(font_bold)
 
 # Create FontProperties objects for each font
-font_normal_prop = FontProperties(fname=font_normal_path)
-font_italic_prop = FontProperties(fname=font_italic_path)
-font_bold_prop = FontProperties(fname=font_bold_path)
+font_normal_prop = FontProperties(fname="Cousine-Regular.ttf")
+font_italic_prop = FontProperties(fname="Cousine-Italic.ttf")
+font_bold_prop = FontProperties(fname="Cousine-Bold.ttf")
 
 # Create a Streamlit selectbox to choose the player
 selected_player = st.selectbox("Select a player:", medios['player'])
@@ -72,7 +88,6 @@ fig, ax = baker.make_pizza(
         )
     )  # values to be used when adding parameter-values
 )
-
 
 # add title
 fig.text(
