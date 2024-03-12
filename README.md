@@ -1,6 +1,6 @@
 # Player Profile
 
-![Cover Image](radar.jpge)
+![Cover Image](radar.jpeg)
 
 On football_players_data.ipynb you can find how to get data from players from any league!  
 In this case is for the Spanish La Liga ⚽️ midfielders players, but feel free to adapt it to any league and any field position.
