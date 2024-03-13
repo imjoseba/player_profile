@@ -52,12 +52,14 @@ font_italic_prop = FontProperties(fname="Cousine-Italic.ttf")
 font_bold_prop = FontProperties(fname="Cousine-Bold.ttf")
 
 # add png image centered on the column 
-st.image("laliga.svg", use_column_width=True)
+st.sidebar.image("laliga.svg", use_column_width=True)
 
 
-selected_player_1, selected_player_2 = st.columns(2)
-with selected_player_1:
-    selected_player_1 = st.selectbox("Select the first player:", medios['player'])
+# select players on sidebar
+st.sidebar.title("Select players")
+selected_player_1 = st.sidebar.selectbox("Select the first player:", medios['player'])
+selected_player_2 = st.sidebar.selectbox("Select the second player:", medios['player'])
+
 
 # Get the first selected player's data
 player_data_1 = medios[medios['player'] == selected_player_1].iloc[0]
@@ -69,9 +71,6 @@ values_1 = []
 for x in range(len(params)):   
     values_1.append(math.floor(stats.percentileofscore(medios[params[x]], player_1[x])))
 
-with selected_player_2:
-    selected_player_2 = st.selectbox("Select the second player:", medios['player'])
-
 # Get the second selected player's data
 player_data_2 = medios[medios['player'] == selected_player_2].iloc[0]
 
@@ -81,9 +80,23 @@ values_2 = []
 for x in range(len(params)):   
     values_2.append(math.floor(stats.percentileofscore(medios[params[x]], player_2[x])))
 
+
+# Crear 2 columnas
+col1, col2 = st.columns(2)
+
+# col1 is first color and text
+with col1:
+    st.markdown(f"<h1 style='text-align: center; color: #000000;font-size: 30px'>{selected_player_1}</h1>", unsafe_allow_html=True)
+
+with col2:
+    st.markdown(f"<h1 style='text-align: center; color: #000000;font-size: 30px'>{selected_player_2}</h1>", unsafe_allow_html=True)
+
+
+
 # color for the slices and text
 slice_colors = ["#1A78CF"] * 5 + ["#FF9300"] * 5 + ['#d70232'] * 5 
 text_colors = ["#000000"] * 5 + ["#000000"] * 5 + ["#000000"] * 5
+
 
 # instantiate PyPizza class
 baker = PyPizza(
@@ -122,45 +135,17 @@ fig1, ax1 = baker.make_pizza(
     )  # values to be used when adding parameter-values
 )
 
-# add title for the first player
-fig1.text(
-    0.5, 0.975, selected_player_1, size=30,
-    ha="center", fontproperties=font_bold_prop, color="#000000"
-)
+
 # add credits
-CREDIT_1 = "data: fbref"
-CREDIT_2 = "inspired by: @Lanus Stats"
-CREDIT_3 = "Joseba Moreno: imjoseba@hotmail.com"
+CREDIT_1 = "[fbref](https://fbref.com/es/comps/12/Estadisticas-de-La-Liga)"
+CREDIT_2 = "inspired by: [Lanus Stats](https://www.youtube.com/@LanusStats)"
+CREDIT_3 = "[Joseba Moreno](www.imjoseba.com)"
 
-# add credits for the first player
-fig1.text(
-    0.99, 0.005, f"{CREDIT_1}\n{CREDIT_2}\n{CREDIT_3}", size=12,
-    color="#000000",
-    ha="right", fontproperties=font_italic_prop
-)
-fig1.text(
-    0.25, 0.925, "Attack contribution         Passes        Defence contribution", size=14,
-    color="#000000", fontproperties=font_bold_prop
-)
+# add credits on sidebar with font_italic_prop
+st.sidebar.markdown(f"Data source: {CREDIT_1}")
+st.sidebar.markdown(f"Inspired by: {CREDIT_2}")
+st.sidebar.markdown(f"Contact: {CREDIT_3}")
 
-# Circles (Rectangles in this case) for the first player
-fig1.patches.extend([
-    plt.Circle(
-        (0.23, 0.93), 0.015,
-        fill=True, color="#1A78CF", zorder=3, clip_on=False,
-        transform=fig1.transFigure, figure=fig1
-    ),
-    plt.Circle(
-        (0.50, 0.93), 0.015,
-        fill=True, color="#FF9300", zorder=3, clip_on=False,
-        transform=fig1.transFigure, figure=fig1
-    ),
-    plt.Circle(
-        (0.64, 0.93), 0.015,
-        fill=True, color="#d70232", zorder=3, clip_on=False,
-        transform=fig1.transFigure, figure=fig1
-    ),
-])
 
 # plot pizza for the second player
 fig2, ax2 = baker.make_pizza(
@@ -188,41 +173,6 @@ fig2, ax2 = baker.make_pizza(
     )  # values to be used when adding parameter-values
 )
 
-# add title for the second player
-fig2.text(
-    0.5, 0.975, selected_player_2, size=30,
-    ha="center", fontproperties=font_bold_prop, color="#000000"
-)
-
-# add credits for the second player
-fig2.text(
-    0.99, 0.005, f"{CREDIT_1}\n{CREDIT_2}\n{CREDIT_3}", size=12,
-    color="#000000",
-    ha="right", fontproperties=font_italic_prop
-)
-fig2.text(
-    0.25, 0.925, "Attack contribution         Passes        Defence contribution", size=14,
-    color="#000000", fontproperties=font_bold_prop
-)
-
-# Circles (Rectangles in this case) for the second player
-fig2.patches.extend([
-    plt.Circle(
-        (0.23, 0.93), 0.015,
-        fill=True, color="#1A78CF", zorder=3, clip_on=False,
-        transform=fig2.transFigure, figure=fig2
-    ),
-    plt.Circle(
-        (0.50, 0.93), 0.015,
-        fill=True, color="#FF9300", zorder=3, clip_on=False,
-        transform=fig2.transFigure, figure=fig2
-    ),
-    plt.Circle(
-        (0.64, 0.93), 0.015,
-        fill=True, color="#d70232", zorder=3, clip_on=False,
-        transform=fig2.transFigure, figure=fig2
-    ),
-])
 
 # Display radar charts side by side
 col1, col2 = st.columns(2)
@@ -231,3 +181,20 @@ with col1:
 
 with col2:
     st.pyplot(fig2)
+
+
+col1, col2, col3 = st.columns(3)
+
+
+with col1:
+    st.write(f"<h1 style='text-align: center; color: #1A78CF; font-size: 15px; line-height: 0.2;'>Attack contribution</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align: center; color: #1A78CF; font-size: 10px; line-height: 0.2;'>Goals, Shots and Shots on target per 90, xG</h1>", unsafe_allow_html=True)
+
+with col2:
+    st.write(f"<h1 style='text-align: center; color: #FF9300;line-height: 0.2; font-size: 15px;'>Passes</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align: center; color: #FF9300;font-size: 10px;'>Total passes, short, med and long distance completed, xA</h1>", unsafe_allow_html=True)
+
+with col3:
+    st.write(f"<h1 style='text-align: center; color: #d70232; line-height: 0.2;font-size: 15px;'>Defense contribution</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align: center; color: #d70232; font-size: 10px;'>Loose balls recovered and interceptions per 90, tackles with ball recovered, % of duels and aerials duels won </h1>", unsafe_allow_html=True)
+
