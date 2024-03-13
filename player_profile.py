@@ -7,6 +7,21 @@ import math
 from scipy import stats
 import requests
 
+# Function to embed Google Analytics tracking code
+def google_analytics():
+    google_analytics_code = """
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GYL51JTS7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8GYL51JTS7');
+    </script>
+    """
+    return google_analytics_code
+
 # Load data from GitHub repository
 medios_url = "https://raw.githubusercontent.com/imjoseba/player_profile/main/medios.csv"
 medios = pd.read_csv(medios_url)
