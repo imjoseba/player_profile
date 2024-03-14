@@ -51,14 +51,37 @@ font_normal_prop = FontProperties(fname="Cousine-Regular.ttf")
 font_italic_prop = FontProperties(fname="Cousine-Italic.ttf")
 font_bold_prop = FontProperties(fname="Cousine-Bold.ttf")
 
+# Configura la página
+st.set_page_config(page_title="Player Comparison", page_icon=":soccer:", layout="wide")
+
+
+
 # add png image centered on the column 
 st.sidebar.image("laliga.svg", use_column_width=True)
 
 
 # select players on sidebar
 st.sidebar.title("Select players")
-selected_player_1 = st.sidebar.selectbox("Select the first player:", medios['player'])
-selected_player_2 = st.sidebar.selectbox("Select the second player:", medios['player'])
+selected_player_1 = st.sidebar.selectbox("", medios['player'])
+selected_player_2 = st.sidebar.selectbox(" ", medios['player'])
+
+
+
+# add credits
+CREDIT_1 = "[fbref](https://fbref.com/es/comps/12/Estadisticas-de-La-Liga)"
+CREDIT_2 = "inspired by: [Lanus Stats](https://www.youtube.com/@LanusStats)"
+CREDIT_3 = "[Joseba Moreno](www.imjoseba.com)"
+CREDIT_4 = "[Jose Manuel Solves](http://solvesweb.com/)"
+
+# add credits on sidebar with font_italic_prop
+st.sidebar.header("About this App")
+
+st.sidebar.info(f"""Web developer: {CREDIT_4}""")
+st.sidebar.info(f"""Data Analyst: {CREDIT_3}""")
+st.sidebar.info(f"Data source: {CREDIT_1}")
+st.sidebar.info(f"Inspired by: {CREDIT_2}")
+
+
 
 
 # Get the first selected player's data
@@ -96,6 +119,22 @@ with col2:
 # color for the slices and text
 slice_colors = ["#1A78CF"] * 5 + ["#FF9300"] * 5 + ['#d70232'] * 5 
 text_colors = ["#000000"] * 5 + ["#000000"] * 5 + ["#000000"] * 5
+
+
+col1, col2, col3 = st.columns(3)
+
+with col3:
+    st.markdown(f"<h1 style='text-align: center; color: #d70232; line-height: 0.2;font-size: 20px;'>Defense contribution</h1>", unsafe_allow_html=True)
+
+
+
+with col2:
+    st.markdown(f"<h1 style='text-align: center; color: #FF9300;font-weight: bold;line-height: 0.2; font-size: 18px;'>Passes</h1>", unsafe_allow_html=True)
+    
+
+with col1:
+    st.markdown(f"<h1 style='text-align: center; color: #1A78CF; font-weight: bold;font-size: 17px; line-height: 0.2;'>Attack contribution</h1>", unsafe_allow_html=True)
+
 
 
 # instantiate PyPizza class
@@ -136,17 +175,6 @@ fig1, ax1 = baker.make_pizza(
 )
 
 
-# add credits
-CREDIT_1 = "[fbref](https://fbref.com/es/comps/12/Estadisticas-de-La-Liga)"
-CREDIT_2 = "inspired by: [Lanus Stats](https://www.youtube.com/@LanusStats)"
-CREDIT_3 = "[Joseba Moreno](www.imjoseba.com)"
-
-# add credits on sidebar with font_italic_prop
-st.sidebar.markdown(f"Data source: {CREDIT_1}")
-st.sidebar.markdown(f"Inspired by: {CREDIT_2}")
-st.sidebar.markdown(f"Contact: {CREDIT_3}")
-
-
 # plot pizza for the second player
 fig2, ax2 = baker.make_pizza(
     values_2,                          # list of values for the second player
@@ -181,20 +209,3 @@ with col1:
 
 with col2:
     st.pyplot(fig2)
-
-
-col1, col2, col3 = st.columns(3)
-
-
-with col1:
-    st.write(f"<h1 style='text-align: center; color: #1A78CF; font-size: 15px; line-height: 0.2;'>Attack contribution</h1>", unsafe_allow_html=True)
-    st.markdown(f"<h1 style='text-align: center; color: #1A78CF; font-size: 10px; line-height: 0.2;'>Goals, Shots and Shots on target per 90, xG</h1>", unsafe_allow_html=True)
-
-with col2:
-    st.write(f"<h1 style='text-align: center; color: #FF9300;line-height: 0.2; font-size: 15px;'>Passes</h1>", unsafe_allow_html=True)
-    st.markdown(f"<h1 style='text-align: center; color: #FF9300;font-size: 10px;'>Total passes, short, med and long distance completed, xA</h1>", unsafe_allow_html=True)
-
-with col3:
-    st.write(f"<h1 style='text-align: center; color: #d70232; line-height: 0.2;font-size: 15px;'>Defense contribution</h1>", unsafe_allow_html=True)
-    st.markdown(f"<h1 style='text-align: center; color: #d70232; font-size: 10px;'>Loose balls recovered and interceptions per 90, tackles with ball recovered, % of duels and aerials duels won </h1>", unsafe_allow_html=True)
-
