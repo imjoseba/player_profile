@@ -1,4 +1,3 @@
-
 import pandas as pd
 import streamlit as st
 from mplsoccer import PyPizza
@@ -65,6 +64,10 @@ st.sidebar.title("Select players")
 selected_player_1 = st.sidebar.selectbox("", medios['player'])
 selected_player_2 = st.sidebar.selectbox(" ", medios['player'])
 
+with st.sidebar:
+    st.markdown(f"<h1 style='text-align: center; color: #1A78CF; font-weight: bold;font-size: 20px; line-height: 0.2;'>Attack contribution</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align: center; color: #FF9300;font-weight: bold;line-height: 0.2; font-size: 20px;'>Passes</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align: center; color: #d70232; line-height: 0.2;font-size: 20px;'>Defense contribution</h1>", unsafe_allow_html=True)
 
 
 # add credits
@@ -120,20 +123,6 @@ with col2:
 slice_colors = ["#1A78CF"] * 5 + ["#FF9300"] * 5 + ['#d70232'] * 5 
 text_colors = ["#000000"] * 5 + ["#000000"] * 5 + ["#000000"] * 5
 
-
-col1, col2, col3 = st.columns(3)
-
-with col3:
-    st.markdown(f"<h1 style='text-align: center; color: #d70232; line-height: 0.2;font-size: 20px;'>Defense contribution</h1>", unsafe_allow_html=True)
-
-
-
-with col2:
-    st.markdown(f"<h1 style='text-align: center; color: #FF9300;font-weight: bold;line-height: 0.2; font-size: 18px;'>Passes</h1>", unsafe_allow_html=True)
-    
-
-with col1:
-    st.markdown(f"<h1 style='text-align: center; color: #1A78CF; font-weight: bold;font-size: 17px; line-height: 0.2;'>Attack contribution</h1>", unsafe_allow_html=True)
 
 
 
